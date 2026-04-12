@@ -513,15 +513,22 @@
   overflow:hidden;
   border-radius:32px;
   padding:56px 24px;
+
+  /* ВАЖНОЕ */
+  max-width:900px;
+  margin:0 auto;
   text-align:center;
+
   background:
     radial-gradient(circle at 20% 20%, rgba(126,161,255,.16), transparent 25%),
     radial-gradient(circle at 80% 30%, rgba(126,161,255,.12), transparent 24%),
     linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+
   border:1px solid rgba(255,255,255,.08);
   box-shadow:
     0 24px 70px rgba(0,0,0,.45),
     inset 0 1px 0 rgba(255,255,255,.05);
+
   backdrop-filter:blur(10px);
 }
 
@@ -534,6 +541,11 @@
     linear-gradient(135deg, rgba(96,126,212,.10), transparent 35%, transparent 65%, rgba(96,126,212,.08));
 }
 
+.credit-section{
+  display:flex;
+  justify-content:center;
+}
+    
 .credit-line{
   width:140px;
   height:4px;
