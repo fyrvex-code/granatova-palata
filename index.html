@@ -501,17 +501,6 @@
         padding:14px 16px;
       }
     }
-
-.footer-anim {
-  opacity:0;
-  transform:translateY(30px);
-  transition:all 1s ease;
-}
-
-.footer-anim.show {
-  opacity:1;
-  transform:translateY(0);
-}
     
   </style>
 </head>
@@ -749,16 +738,6 @@
         </div>
       </div>
     </section>
-
-<footer class="footer-anim" style="
-  margin-top:80px;
-  padding:40px 20px;
-  text-align:center;
-  border-top:1px solid rgba(255,255,255,0.1);
-">
-  <p style="color:#9fb0d0;">Презентацию выполнил</p>
-  <h2 style="color:#7ea1ff;">Картузов Артём</h2>
-</footer>
     
   </main>
 
@@ -769,18 +748,7 @@
       });
     }, { threshold: 0.14 });
 
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
-const footer = document.querySelector('.footer-anim');
-
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) footer.classList.add('show');
-  });
-});
-
-obs.observe(footer);
-    
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el)); 
   </script>
 </body>
 </html>
