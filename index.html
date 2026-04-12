@@ -501,6 +501,162 @@
         padding:14px 16px;
       }
     }
+
+    .credit-section{
+  position:relative;
+  margin-top:80px;
+  padding:40px 0 10px;
+}
+
+.credit-wrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:32px;
+  padding:56px 24px;
+  text-align:center;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(126,161,255,.16), transparent 25%),
+    radial-gradient(circle at 80% 30%, rgba(126,161,255,.12), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter:blur(10px);
+}
+
+.credit-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(135deg, rgba(96,126,212,.10), transparent 35%, transparent 65%, rgba(96,126,212,.08));
+}
+
+.credit-line{
+  width:140px;
+  height:4px;
+  margin:0 auto 24px;
+  border-radius:999px;
+  background:linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow:0 0 30px rgba(126,161,255,.45);
+  animation:creditPulse 3s ease-in-out infinite;
+}
+
+.credit-label{
+  position:relative;
+  z-index:2;
+  margin:0;
+  color:var(--muted);
+  font-size:.92rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+
+.credit-name{
+  position:relative;
+  z-index:2;
+  margin:16px 0 10px;
+  font-size:clamp(2.1rem, 5vw, 4.3rem);
+  line-height:.95;
+  letter-spacing:-.04em;
+  font-weight:900;
+  color:#ffffff;
+  text-shadow:
+    0 0 18px rgba(126,161,255,.25),
+    0 0 45px rgba(126,161,255,.12);
+  animation:creditFloat 4.5s ease-in-out infinite;
+}
+
+.credit-subtext{
+  position:relative;
+  z-index:2;
+  margin:0;
+  color:rgba(243,247,255,.72);
+  font-size:1rem;
+  letter-spacing:.04em;
+}
+
+.credit-glow{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(50px);
+  pointer-events:none;
+  opacity:.45;
+}
+
+.credit-glow-1{
+  width:220px;
+  height:220px;
+  background:rgba(126,161,255,.16);
+  top:-40px;
+  left:-40px;
+  animation:glowMove1 8s ease-in-out infinite;
+}
+
+.credit-glow-2{
+  width:260px;
+  height:260px;
+  background:rgba(46,75,156,.18);
+  right:-70px;
+  bottom:-70px;
+  animation:glowMove2 10s ease-in-out infinite;
+}
+
+@keyframes creditPulse{
+  0%,100%{
+    transform:scaleX(1);
+    opacity:.85;
+  }
+  50%{
+    transform:scaleX(1.08);
+    opacity:1;
+  }
+}
+
+@keyframes creditFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-4px);
+  }
+}
+
+@keyframes glowMove1{
+  0%,100%{
+    transform:translate(0,0) scale(1);
+  }
+  50%{
+    transform:translate(16px,10px) scale(1.08);
+  }
+}
+
+@keyframes glowMove2{
+  0%,100%{
+    transform:translate(0,0) scale(1);
+  }
+  50%{
+    transform:translate(-18px,-14px) scale(1.06);
+  }
+}
+
+@media (max-width:760px){
+  .credit-wrap{
+    padding:40px 18px;
+    border-radius:24px;
+  }
+
+  .credit-label{
+    font-size:.8rem;
+    letter-spacing:.16em;
+  }
+
+  .credit-subtext{
+    font-size:.92rem;
+  }
+}
     
   </style>
 </head>
@@ -736,6 +892,18 @@
             </div>  
           </div>
         </div>
+      </div>
+    </section>
+    
+    <section class="credit-section reveal" id="credits">
+      <div class="credit-wrap">
+        <div class="credit-line"></div>
+        <p class="credit-label">Презентацию выполнил</p>
+        <h2 class="credit-name">Картузов Артём</h2>
+        <p class="credit-subtext">Учебный проект по истории</p>
+
+        <div class="credit-glow credit-glow-1"></div>
+        <div class="credit-glow credit-glow-2"></div>
       </div>
     </section>
     
