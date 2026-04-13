@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="page_title">Грановитая палата — HTML презентация</title>
+<style>
+    :root{
+      --bg:#05070f;
+      --bg-soft:#0b1221;
+      --panel:rgba(255,255,255,.055);
+      --panel-strong:rgba(255,255,255,.08);
+      --text:#f3f7ff;
+      --muted:#9fb0d0;
+      --accent:#7ea1ff;
+      --accent-soft:rgba(72,104,196,.16);
+      --line:rgba(96,126,212,.28);
+      --shadow:0 24px 70px rgba(0,0,0,.45);
+      --radius:26px;
+      --max:1320px;
+    }
+
+    *{
+      box-sizing:border-box;
+      min-width:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(58,84,160,.22), transparent 28%),
+        radial-gradient(circle at 85% 20%, rgba(33,52,112,.18), transparent 22%),
+        linear-gradient(180deg, #02040a 0%, #060913 35%, #0a1020 100%);
+      overflow-x:hidden;
+    }
+
+    body.no-scroll{
+      overflow:hidden;
+      touch-action:none;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:40px 40px;
+      mask-image:radial-gradient(circle at center, black 45%, transparent 96%);
+      opacity:.2;
+    }
+
+    img{
+      max-width:100%;
+      display:block;
+    }
+
+
+    .nav{
+      position:fixed;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(calc(100% - 24px), 1160px);
+      z-index:100;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      padding:12px 18px;
+      border-radius:999px;
+      background:rgba(6,10,20,.74);
+      border:1px solid rgba(255,255,255,.06);
+      backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:700;
+      letter-spacing:.02em;
+      white-space:nowrap;
+      flex:0 0 auto;
+    }
+
+    .brand-mark{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      background:linear-gradient(135deg, #7ea1ff 0%, #2e4b9c 100%);
+      box-shadow:0 0 30px rgba(92,126,221,.35);
+      position:relative;
+      flex:0 0 auto;
+    }
+
+    .brand-mark::after{
+      content:"";
+      position:absolute;
+      inset:8px;
+      border-radius:50%;
+      border:1px solid rgba(0,0,0,.35);
+    }
+
+    .nav-links{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      gap:10px;
+      min-width:0;
+      margin-left:auto;
+    }
+
+    .nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-size:.92rem;
+      padding:10px 14px;
+      border-radius:999px;
+      opacity:.88;
+      transition:.25s ease;
+      white-space:nowrap;
+    }
+
+    .nav a:hover{
+      background:rgba(255,255,255,.06);
+      opacity:1;
+      transform:translateY(-1px);
+    }
+
+    .menu-toggle{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      color:#fff;
+      font-size:24px;
+      cursor:pointer;
+      transition:.25s ease;
+      flex:0 0 auto;
+    }
+
+    .menu-toggle:hover{
+      background:rgba(126,161,255,.16);
+      border-color:rgba(126,161,255,.35);
+    }
+
+    .menu-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      backdrop-filter:blur(2px);
+      -webkit-backdrop-filter:blur(2px);
+      opacity:0;
+      visibility:hidden;
+      transition:opacity .3s ease, visibility .3s ease;
+      z-index:98;
+    }
+
+    .menu-overlay.active{
+      opacity:1;
+      visibility:visible;
+    }
+
+    .mobile-menu{
+      position:fixed;
+      top:78px;
+      left:16px;
+      right:16px;
+      max-height:calc(100vh - 100px);
+      overflow-y:auto;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      padding:14px;
+      background:rgba(8,12,24,.96);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      box-shadow:0 20px 40px rgba(0,0,0,.35);
+      z-index:99;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(-14px) scale(.98);
+      transition:opacity .28s ease, transform .28s ease, visibility .28s ease;
+    }
+
+    .mobile-menu a{
+      display:block;
+      padding:14px 16px;
+      border-radius:12px;
+      color:#fff;
+      text-decoration:none;
+      font-size:15px;
+      font-weight:600;
+      text-align:center;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.05);
+      transition:.25s ease;
+    }
+
+    .mobile-menu a:hover{
+      background:rgba(126,161,255,.14);
+      border-color:rgba(126,161,255,.35);
+    }
+
+    .mobile-menu.active{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0) scale(1);
+    }
+
+    .devtools-overlay{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:rgba(5,7,15,.88);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      opacity:0;
+      visibility:hidden;
+      transition:opacity .28s ease, visibility .28s ease;
+      z-index:7000;
+    }
+
+    .devtools-overlay.active{
+      opacity:1;
+      visibility:visible;
+    }
+
+    .devtools-box{
+      width:100%;
+      max-width:500px;
+      text-align:center;
+      padding:40px 34px 34px;
+      border-radius:28px;
+      background:rgba(8,15,40,.96);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 30px 80px rgba(0,0,0,.45);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      transform:scale(.96) translateY(12px);
+      transition:transform .28s ease;
+    }
+
+    .devtools-overlay.active .devtools-box{
+      transform:scale(1) translateY(0);
+    }
+
+    .devtools-icon{
+      position:relative;
+      width:82px;
+      height:82px;
+      margin:0 auto 18px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#dc2626,#ef4444);
+      box-shadow:0 14px 34px rgba(220,38,38,.32);
+    }
+
+    .devtools-icon::before{
+      content:"!";
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-54%);
+      font-size:48px;
+      line-height:1;
+      font-weight:900;
+      font-family:Arial,sans-serif;
+      color:#fff;
+    }
+
+    .devtools-box h3{
+      margin:0 0 12px;
+      font-size:34px;
+      color:#fff;
+    }
+
+    .devtools-box p{
+      margin:0;
+      color:rgba(255,255,255,.76);
+      font-size:16px;
+      line-height:1.7;
+    }
+
+    main{
+      width:min(100%, var(--max));
+      margin:0 auto;
+      padding:110px 20px 64px;
+    }
+
+    .slide{
+      min-height:100vh;
+      display:grid;
+      align-items:center;
+      padding:54px 0;
+    }
+
+    .panel{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      padding:clamp(24px, 4vw, 48px);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+      width:100%;
+    }
+
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:linear-gradient(135deg, rgba(96,126,212,.14), transparent 35%, transparent 65%, rgba(96,126,212,.08));
+    }
+
+    .content{
+      position:relative;
+      z-index:2;
+    }
+
+    .eyebrow{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.78rem;
+      margin-bottom:16px;
+    }
+
+    h1,h2,h3{
+      margin:0;
+    }
+
+    h1,h2{
+      line-height:.96;
+      letter-spacing:-.04em;
+      font-weight:900;
+      text-wrap:balance;
+    }
+
+    h1{
+      font-size:clamp(3rem, 8vw, 7rem);
+      max-width:900px;
+    }
+
+    h2{
+      font-size:clamp(2.1rem, 4.8vw, 4.2rem);
+      margin-bottom:16px;
+      max-width:980px;
+    }
+
+    .accent{
+      color:var(--accent);
+      text-shadow:0 0 26px rgba(96,126,212,.22);
+    }
+
+    .accent-line{
+      width:110px;
+      height:4px;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--accent), transparent);
+      margin:20px 0 26px;
+      box-shadow:0 0 24px rgba(96,126,212,.25);
+    }
+
+    .lead{
+      font-size:clamp(1.05rem,1.65vw,1.24rem);
+      line-height:1.85;
+      max-width:850px;
+      color:rgba(243,247,255,.92);
+      margin:0 0 16px 0;
+    }
+
+    .text-block{
+      max-width:100%;
+    }
+
+    .text-block p,
+    .card p,
+    .quote p{
+      margin:0 0 14px;
+      color:rgba(243,247,255,.86);
+      line-height:1.82;
+      font-size:1.04rem;
+      overflow-wrap:anywhere;
+    }
+
+    .text-block p:last-child,
+    .card p:last-child,
+    .quote p:last-child{
+      margin-bottom:0;
+    }
+
+    .info-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+      margin-top:24px;
+      max-width:820px;
+    }
+
+    .mini{
+      padding:16px 18px;
+      border-radius:20px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+    }
+
+    .mini span{
+      display:block;
+      color:var(--muted);
+      font-size:.82rem;
+      margin-bottom:8px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .mini strong{
+      color:var(--accent);
+      font-size:1.04rem;
+      font-weight:800;
+    }
+
+    .full-image{
+      position:relative;
+      width:100%;
+      margin-top:28px;
+      border-radius:28px;
+      overflow:hidden;
+      border:1px solid rgba(96,126,212,.18);
+      background:#0b1221;
+      min-height:420px;
+    }
+
+    .full-image.large{
+      min-height:560px;
+    }
+
+    .full-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .full-image::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(3,6,14,.08), rgba(3,6,14,.18) 30%, rgba(3,6,14,.74) 100%);
+      pointer-events:none;
+    }
+
+    .image-caption{
+      position:absolute;
+      left:24px;
+      right:24px;
+      bottom:22px;
+      z-index:2;
+      padding:18px 20px;
+      border-radius:22px;
+      background:rgba(5,8,18,.52);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(10px);
+    }
+
+    .image-caption strong{
+      display:block;
+      margin-bottom:8px;
+      color:var(--accent);
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      font-size:.86rem;
+    }
+
+    .image-caption p{
+      margin:0;
+      color:rgba(243,247,255,.88);
+      line-height:1.65;
+      font-size:.98rem;
+      overflow-wrap:anywhere;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:18px;
+      align-items:stretch;
+      width:100%;
+      margin-top:22px;
+    }
+
+    .cards.two{
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card{
+      padding:24px;
+      border-radius:26px;
+      background:var(--panel);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(8px);
+      transition:transform .35s ease, border-color .35s ease, background .35s ease;
+      width:100%;
+      height:100%;
+    }
+
+    .card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(96,126,212,.32);
+      background:var(--panel-strong);
+    }
+
+    .card-number{
+      font-size:.84rem;
+      color:var(--accent);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+
+    .card h3{
+      font-size:1.3rem;
+      margin-bottom:12px;
+      text-wrap:balance;
+    }
+
+    .quote{
+      margin-top:22px;
+      padding:28px 30px;
+      border-left:3px solid var(--accent);
+      border-radius:0 24px 24px 0;
+      background:linear-gradient(90deg, rgba(96,126,212,.12), rgba(255,255,255,.02));
+      width:100%;
+    }
+
+    .facts{
+      display:grid;
+      gap:14px;
+      margin-top:22px;
+      width:100%;
+    }
+
+    .fact{
+      display:grid;
+      grid-template-columns:140px minmax(0,1fr);
+      gap:16px;
+      align-items:start;
+      padding:16px 18px;
+      border-radius:20px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);
+      width:100%;
+    }
+
+    .fact strong{
+      color:var(--accent);
+      font-size:1rem;
+    }
+
+    .footer-note{
+      margin-top:18px;
+      color:rgba(243,247,255,.68);
+      font-size:.95rem;
+      line-height:1.7;
+      max-width:900px;
+    }
+
+    .center{
+      text-align:center;
+    }
+
+    .big-final{
+      font-size:clamp(2.4rem, 6.5vw, 5.8rem);
+      max-width:980px;
+      margin:0 auto;
+      line-height:.98;
+      letter-spacing:-.05em;
+      text-wrap:balance;
+    }
+
+    .sub-final{
+      max-width:900px;
+      margin:24px auto 0;
+      font-size:1.1rem;
+      line-height:1.9;
+      color:rgba(243,247,255,.84);
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(36px) scale(.985);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.show{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    .delay-1{transition-delay:.1s}
+    .delay-2{transition-delay:.22s}
+    .delay-3{transition-delay:.34s}
+    .delay-4{transition-delay:.46s}
+
+    @media (max-width:900px){
+      .info-grid{
+        grid-template-columns:1fr;
+      }
+
+      .cards,
+      .cards.two{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width:760px){
+      .nav{
+        width:min(calc(100% - 20px), 1160px);
+        padding:10px 12px;
+        gap:12px;
+      }
+
+      .nav-links{
+        display:none;
+      }
+
+      .menu-toggle{
+        display:inline-flex;
+      }
+
+      .lang-current{
+        min-width:74px;
+        height:42px;
+        padding:0 12px;
+        font-size:13px;
+      }
+
+      .mobile-lang-wrap{
+        display:block;
+      }
+
+      main{
+        padding-top:128px;
+      }
+
+      .fact{
+        grid-template-columns:1fr;
+      }
+
+      .full-image{
+        min-height:320px;
+      }
+
+      .full-image.large{
+        min-height:380px;
+      }
+
+      .panel{
+        padding:24px;
+      }
+
+      .image-caption{
+        left:14px;
+        right:14px;
+        bottom:14px;
+        padding:14px 16px;
+      }
+
+      .devtools-box{
+        max-width:420px;
+        padding:34px 22px 24px;
+        border-radius:24px;
+      }
+
+      .devtools-box h3{
+        font-size:28px;
+      }
+
+      .devtools-box p{
+        font-size:15px;
+      }
+    }
+
+    .credit-section{
+  position:relative;
+  margin-top:80px;
+  padding:40px 0 10px;
+}
+
+.credit-wrap{
+  position:relative;
+  overflow:hidden;
+  border-radius:32px;
+  padding:56px 24px;
+
+  /* ВАЖНОЕ */
+  max-width:900px;
+  margin:0 auto;
+  text-align:center;
+
+  background:
+    radial-gradient(circle at 20% 20%, rgba(126,161,255,.16), transparent 25%),
+    radial-gradient(circle at 80% 30%, rgba(126,161,255,.12), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
+
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.05);
+
+  backdrop-filter:blur(10px);
+}
+
+.credit-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(135deg, rgba(96,126,212,.10), transparent 35%, transparent 65%, rgba(96,126,212,.08));
+}
+
+.credit-section{
+  display:flex;
+  justify-content:center;
+}
+    
+.credit-line{
+  width:140px;
+  height:4px;
+  margin:0 auto 24px;
+  border-radius:999px;
+  background:linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow:0 0 30px rgba(126,161,255,.45);
+  animation:creditPulse 3s ease-in-out infinite;
+}
+
+.credit-label{
+  position:relative;
+  z-index:2;
+  margin:0;
+  color:var(--muted);
+  font-size:.92rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+
+.credit-name{
+  position:relative;
+  z-index:2;
+  margin:16px 0 10px;
+  font-size:clamp(2.1rem, 5vw, 4.3rem);
+  line-height:.95;
+  letter-spacing:-.04em;
+  font-weight:900;
+  color:#ffffff;
+  text-shadow:
+    0 0 18px rgba(126,161,255,.25),
+    0 0 45px rgba(126,161,255,.12);
+  animation:creditFloat 4.5s ease-in-out infinite;
+}
+
+.credit-subtext{
+  position:relative;
+  z-index:2;
+  margin:0;
+  color:rgba(243,247,255,.72);
+  font-size:1rem;
+  letter-spacing:.04em;
+  margin-top:40px;
+}
+
+.credit-glow{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(50px);
+  pointer-events:none;
+  opacity:.45;
+}
+
+.credit-glow-1{
+  width:220px;
+  height:220px;
+  background:rgba(126,161,255,.16);
+  top:-40px;
+  left:-40px;
+  animation:glowMove1 8s ease-in-out infinite;
+}
+
+.credit-glow-2{
+  width:260px;
+  height:260px;
+  background:rgba(46,75,156,.18);
+  right:-70px;
+  bottom:-70px;
+  animation:glowMove2 10s ease-in-out infinite;
+}
+
+@keyframes creditPulse{
+  0%,100%{
+    transform:scaleX(1);
+    opacity:.85;
+  }
+  50%{
+    transform:scaleX(1.08);
+    opacity:1;
+  }
+}
+
+@keyframes creditFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-4px);
+  }
+}
+
+@keyframes glowMove1{
+  0%,100%{
+    transform:translate(0,0) scale(1);
+  }
+  50%{
+    transform:translate(16px,10px) scale(1.08);
+  }
+}
+
+@keyframes glowMove2{
+  0%,100%{
+    transform:translate(0,0) scale(1);
+  }
+  50%{
+    transform:translate(-18px,-14px) scale(1.06);
+  }
+}
+
+@media (max-width:760px){
+  .credit-wrap{
+    padding:40px 18px;
+    border-radius:24px;
+  }
+
+  .credit-label{
+    font-size:.8rem;
+    letter-spacing:.16em;
+  }
+
+  .credit-subtext{
+    font-size:.92rem;
+  }
+}
+    
+  
+
+/* language dropdown */
+.lang-dropdown{
+  position:relative;
+  flex:0 0 auto;
+}
+.lang-current{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:86px;
+  height:44px;
+  padding:0 16px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+  transition:.25s;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.lang-current:hover{
+  background:rgba(126,161,255,.15);
+  border-color:rgba(126,161,255,.35);
+}
+.lang-menu{
+  position:absolute;
+  top:110%;
+  right:0;
+  width:170px;
+  padding:8px;
+  border-radius:16px;
+  background:rgba(8,15,40,.95);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px);
+  transition:.25s;
+  z-index:120;
+}
+.lang-dropdown.active .lang-menu{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+.lang-item{
+  width:100%;
+  text-align:left;
+  padding:10px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  color:rgba(255,255,255,.82);
+  background:transparent;
+  border:none;
+  transition:.2s;
+}
+.lang-item:hover{
+  background:rgba(126,161,255,.15);
+  color:#fff;
+}
+.mobile-lang-wrap{
+  display:none;
+  padding:10px 4px 6px;
+}
+.mobile-lang-title{
+  color:rgba(255,255,255,.68);
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-align:center;
+  margin-bottom:10px;
+}
+.mobile-lang-buttons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.mobile-lang-btn{
+  min-height:44px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s ease;
+}
+.mobile-lang-btn:hover,
+.mobile-lang-btn.active{
+  background:rgba(126,161,255,.16);
+  border-color:rgba(126,161,255,.35);
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+<div class="brand">
+<span class="brand-mark"></span>
+<span data-i18n="brand_name">Грановитая палата</span>
+</div>
+<div class="nav-links">
+<a data-i18n="nav_home" href="#hero">Главная</a>
+<a data-i18n="nav_history" href="#history">История</a>
+<a data-i18n="nav_architecture" href="#architecture">Архитектура</a>
+<a data-i18n="nav_authors" href="#authors">Создатели</a>
+<a data-i18n="nav_interior" href="#interior">Интерьер</a>
+<a data-i18n="nav_meaning" href="#meaning">Значение</a>
+<a data-i18n="nav_final" href="#final">Финал</a>
+</div>
+
+<div class="lang-dropdown" id="langDropdown">
+<button class="lang-current" id="langCurrent" type="button">RU ▾</button>
+<div class="lang-menu" id="langMenu">
+<button class="lang-item" data-lang="ru" type="button">Русский</button>
+<button class="lang-item" data-lang="en" type="button">English</button>
+<button class="lang-item" data-lang="zh" type="button">中文</button>
+</div>
+</div>
+<button aria-label="Открыть меню" class="menu-toggle" data-i18n-aria-label="menu_open" id="menuToggle">☰</button>
+</nav>
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+<div class="mobile-lang-wrap">
+<div class="mobile-lang-title" data-i18n="language_label">Язык</div>
+<div class="mobile-lang-buttons">
+<button class="mobile-lang-btn" data-lang="ru" type="button">RU</button>
+<button class="mobile-lang-btn" data-lang="en" type="button">EN</button>
+<button class="mobile-lang-btn" data-lang="zh" type="button">中文</button>
+</div>
+</div>
+
+<a data-i18n="nav_home" href="#hero">Главная</a>
+<a data-i18n="nav_history" href="#history">История</a>
+<a data-i18n="nav_architecture" href="#architecture">Архитектура</a>
+<a data-i18n="nav_authors" href="#authors">Создатели</a>
+<a data-i18n="nav_interior" href="#interior">Интерьер</a>
+<a data-i18n="nav_meaning" href="#meaning">Значение</a>
+<a data-i18n="nav_final" href="#final">Финал</a>
+</div>
+<div aria-hidden="true" class="devtools-overlay" id="devtoolsOverlay">
+<div class="devtools-box">
+<div class="devtools-icon"></div>
+<h3 data-i18n="devtools_title">Доступ закрыт</h3>
+<p data-i18n="devtools_text">Пожалуйста, закройте инструменты разработчика и обновите страницу</p>
+</div>
+</div>
+<main>
+<section class="slide" id="hero">
+<div class="panel reveal show">
+<div class="content">
+<div class="eyebrow reveal show delay-1" data-i18n="hero_eyebrow">Московский Кремль / История / Архитектура власти</div>
+<h1 class="reveal show delay-2" data-i18n-html="hero_title">Грановитая <span class="accent">палата</span></h1>
+<div class="accent-line reveal show delay-3"></div>
+<p class="lead reveal show delay-4" data-i18n="hero_p1">
+            Грановитая палата — одно из самых узнаваемых и символически нагруженных сооружений Московского Кремля.
+            Это не просто старинное здание, а важнейшее пространство государственной репрезентации, где архитектура,
+            политический ритуал и историческая память веками работали вместе.
+          </p>
+<p class="lead reveal show delay-4" data-i18n="hero_p2">
+            Именно здесь государственная власть показывала себя как торжественный порядок: через масштаб зала,
+            строгость каменного фасада, церемонии, приёмы иностранных послов, пиры и официальные собрания.
+            Даже сегодня палата воспринимается как архитектурный знак эпохи, в которой Москва превращалась
+            в центр усиливающегося государства.
+          </p>
+<div class="info-grid reveal show delay-4">
+<div class="mini"><span data-i18n="hero_label_period">Период</span><strong data-i18n="hero_info_period">1487–1491</strong></div>
+<div class="mini"><span data-i18n="hero_label_context">Контекст</span><strong data-i18n="hero_info_context">Эпоха Ивана III</strong></div>
+<div class="mini"><span data-i18n="hero_label_image">Образ</span><strong data-i18n="hero_info_image">Власть и церемония</strong></div>
+</div>
+<div class="full-image large reveal show delay-4">
+<img alt="Грановитая палата, общий вид" data-i18n-alt="alt_hero" src="moskovskij-kreml-granovitaya-palata-48427_w640.jpg"/>
+<div class="image-caption">
+<strong data-i18n="hero_caption_title">Общий вид</strong>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide" id="history">
+<div class="panel reveal">
+<div class="content">
+<div class="eyebrow" data-i18n="slide_02">Слайд 02</div>
+<h2 data-i18n="history_title">История создания</h2>
+<div class="accent-line"></div>
+<div class="text-block">
+<p data-i18n="history_p1">Строительство Грановитой палаты относится к концу XV века — времени, когда Московское государство активно укрепляло своё политическое положение и одновременно переосмысляло архитектурный язык власти. В этот период Кремль превращался не только в оборонительный комплекс, но и в тщательно продуманную парадную резиденцию правителя.</p>
+<p data-i18n="history_p2">Палата возводилась в 1487–1491 годах. Её появление связано с крупной перестройкой Кремля при Иване III, когда в Москву приглашались иностранные мастера, прежде всего из Италии. Их задача заключалась не просто в строительстве новых стен и дворцовых помещений, а в создании образа новой столицы, сопоставимой по выразительности с ведущими центрами Европы.</p>
+<p data-i18n="history_p3">Уже в первые десятилетия своего существования палата стала центральным местом государственных церемоний. Здесь принимали послов, проводили торжественные обеды, праздновали победы и обсуждали вопросы, напрямую связанные с устройством русского государства.</p>
+<div class="facts">
+<div class="fact"><strong data-i18n="history_fact_year1">1487</strong><div data-i18n="history_fact_text1">Начало строительства в контексте масштабного обновления Кремля.</div></div>
+<div class="fact"><strong data-i18n="history_fact_year2">1487–1491</strong><div data-i18n="history_fact_text2">Основной период работ, в течение которого формируется парадный характер будущей палаты.</div></div>
+<div class="fact"><strong data-i18n="history_fact_year3">XVI–XVII века</strong><div data-i18n="history_fact_text3">Палата окончательно закрепляется как пространство высших государственных церемоний.</div></div>
+</div>
+</div>
+<div class="full-image reveal delay-2">
+<img alt="Исторический вид Грановитой палаты" data-i18n-alt="alt_history" src="i.jpg"/>
+<div class="image-caption">
+<strong data-i18n="history_caption_title">Исторический контекст</strong>
+<p data-i18n="history_caption_text">Фото старого ракурса грановитой палаты</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide" id="architecture">
+<div class="panel reveal">
+<div class="content">
+<div class="eyebrow" data-i18n="slide_03">Слайд 03</div>
+<h2 data-i18n="architecture_title">Архитектурный образ</h2>
+<div class="accent-line"></div>
+<div class="text-block">
+<p data-i18n="architecture_p1">Главная особенность палаты — её знаменитый фасад, обработанный рустом в форме граней. Именно из-за этого декоративного приёма здание получило своё название. Поверхность стены словно разложена на ритмичные каменные плоскости, благодаря чему фасад начинает работать как большой геометрический экран.</p>
+<p data-i18n="architecture_p2">Архитектура палаты соединяет русскую традицию с итальянским ренессансным опытом. В ней нет избыточной мягкости: напротив, здание выглядит собранным, напряжённым и статичным. Такая сдержанность делает его особенно выразительным в окружении кремлёвских соборов и дворцовых корпусов.Внешний облик палаты уже сам по себе говорит о функции и статусе здания.</p>
+<div class="cards">
+<article class="card"><div class="card-number" data-i18n="architecture_card_num1">01</div><h3 data-i18n="architecture_card_title1">Гранёный руст</h3><p data-i18n="architecture_card_text1">Создаёт характерную игру света на белом камне и придаёт фасаду узнаваемую пластику.</p></article>
+<article class="card"><div class="card-number" data-i18n="architecture_card_num2">02</div><h3 data-i18n="architecture_card_title2">Ренессансное влияние</h3><p data-i18n="architecture_card_text2">Читается в пропорциях, чёткости архитектурных членений и отношении к фасаду как к парадной плоскости.</p></article>
+<article class="card"><div class="card-number" data-i18n="architecture_card_num3">03</div><h3 data-i18n="architecture_card_title3">Политическая форма</h3><p data-i18n="architecture_card_text3">Архитектура работает как средство выразить идею прочности и порядка.</p></article>
+</div>
+</div>
+<div class="full-image reveal delay-2">
+<img alt="Архитектурные детали Грановитой палаты" data-i18n-alt="alt_architecture" src="img/architecture.jpg"/>
+<div class="image-caption">
+<strong data-i18n="architecture_caption_title">Детали фасада</strong>
+<p data-i18n="architecture_caption_text">Фото крупного фрагмента фасада</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide" id="authors">
+<div class="panel reveal">
+<div class="content">
+<div class="eyebrow" data-i18n="slide_04">Слайд 04</div>
+<h2 data-i18n="authors_title">Создатели палаты</h2>
+<div class="accent-line"></div>
+<div class="cards two">
+<article class="card">
+<div class="card-number" data-i18n="authors_name1">Марко Руффо</div>
+<h3 data-i18n="authors_card_title1">Итальянский мастер, работавший на обновление Кремля</h3>
+<p data-i18n="authors_card_p1_1">Марко Руффо был одним из архитекторов, приглашённых в Москву в эпоху Ивана III. Его деятельность связана с переломным моментом, когда Кремль становился не только крепостью, но и новой представительской столицей.</p>
+<p data-i18n="authors_card_p1_2">Руффо привнёс в русскую строительную среду приёмы позднесредневековой и раннеренессансной Италии, которые в Москве получили особую, более строгую и государственную трактовку.</p>
+</article>
+<article class="card">
+<div class="card-number" data-i18n="authors_name2">Пьетро Антонио Солари</div>
+<h3 data-i18n="authors_card_title2">Архитектор новой кремлёвской эпохи</h3>
+<p data-i18n="authors_card_p2_1">Солари считается одной из ключевых фигур в формировании кремлёвского ансамбля конца XV века. Его работа сочетала инженерную точность, умение выстраивать парадный фасад и понимание того, как архитектура влияет на восприятие власти.</p>
+<p data-i18n="authors_card_p2_2">Именно через таких мастеров Москва включалась в большой европейский архитектурный диалог, но не копировала его буквально, а перерабатывала под собственные политические задачи.</p>
+</article>
+</div>
+<div class="quote">
+<p data-i18n="authors_quote">Руффо и Солари стали проводниками нового художественного языка, с помощью которого Московское государство показывало свой масштаб и амбиции.</p>
+</div>
+<div class="full-image reveal delay-2">
+<img alt="Марко Руффо и Пьетро Антонио Солари" data-i18n-alt="alt_authors" src="img/authors.jpg"/>
+<div class="image-caption">
+<strong data-i18n="authors_caption_title">Создатели</strong>
+<p data-i18n="authors_caption_text">Картинка исторической иллюстрацией</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide" id="interior">
+<div class="panel reveal">
+<div class="content">
+<div class="eyebrow" data-i18n="slide_05">Слайд 05</div>
+<h2 data-i18n="interior_title">Интерьер и пространство</h2>
+<div class="accent-line"></div>
+<div class="text-block">
+<p data-i18n="interior_p1">Внутри Грановитой палаты главное впечатление создаёт не столько декор сам по себе, сколько масштаб пространства. Зал воспринимается как единый монументальный объём, в центре которого находится опорный столб. Благодаря этому решению интерьер одновременно открыт и строго организован.</p>
+<p data-i18n="interior_p2">Сводчатая система поднимает взгляд вверх, а росписи, декоративные мотивы и крупные светильники усиливают чувство церемониальности. Интерьер буквально заставляет человека чувствовать себя внутри пространства, где каждое движение, слово и жест должны были иметь официальный вес.</p>
+<p data-i18n="interior_p3">Такой зал идеально подходил для приёмов послов, больших торжеств и обедов по случаю военных побед. Пространство не просто вмещало людей — оно дисциплинировало их присутствие и подчеркивало иерархию.</p>
+<div class="facts">
+<div class="fact"><strong data-i18n="interior_fact_title1">Центральная опора</strong><div data-i18n="interior_fact_text1">Ключевой элемент, на котором держится система сводов и вся пространственная композиция.</div></div>
+<div class="fact"><strong data-i18n="interior_fact_title2">Своды и росписи</strong><div data-i18n="interior_fact_text2">Формируют вертикальное движение взгляда и усиливают ощущение торжественности.</div></div>
+<div class="fact"><strong data-i18n="interior_fact_title3">Церемониальная логика</strong><div data-i18n="interior_fact_text3">Интерьер рассчитан на представление власти и на зрелищность официальных событий.</div></div>
+</div>
+</div>
+<div class="full-image reveal delay-2">
+<img alt="Интерьер Грановитой палаты" data-i18n-alt="alt_interior" src="img/interior.jpg"/>
+<div class="image-caption">
+<strong data-i18n="interior_caption_title">Парадный зал</strong>
+<p data-i18n="interior_caption_text">Настоящее интерьерное фото со сводами, росписями и центральной опорой</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide" id="meaning">
+<div class="panel reveal">
+<div class="content">
+<div class="eyebrow" data-i18n="slide_06">Слайд 06</div>
+<h2 data-i18n="meaning_title">Историческое значение</h2>
+<div class="accent-line"></div>
+<div class="text-block">
+<p data-i18n="meaning_p1">Грановитая палата на протяжении столетий была одним из главных помещений русской государственной жизни. Здесь принимали иностранных послов, устраивали торжественные пиры, отмечали важнейшие победы, собирали представителей власти и демонстрировали иностранным гостям величие московского двора.</p>
+<p data-i18n="meaning_p2">Её значение заключалось не только в том, что в ней происходили важные события. Не менее важно и то, как именно они происходили. Пространство палаты задавало нужный масштаб любой церемонии: усиливало впечатление порядка, величия и исторической непрерывности власти.</p>
+<p data-i18n="meaning_p3">Даже в современном восприятии палата остаётся не просто архитектурным памятником, а концентратом представлений о государственном ритуале старой Москвы. Это место, где политическая история и художественная форма почти неразделимы.</p>
+<div class="cards">
+<article class="card"><div class="card-number" data-i18n="meaning_card_num1">Посольства</div><h3 data-i18n="meaning_card_title1">Внешний образ государства</h3><p data-i18n="meaning_card_text1">Палата была пространством, где Русь показывала себя иностранным гостям как сильное и организованное государство.</p></article>
+<article class="card"><div class="card-number" data-i18n="meaning_card_num2">Торжества</div><h3 data-i18n="meaning_card_title2">Праздник как политика</h3><p data-i18n="meaning_card_text2">Пиры и церемонии здесь были частью публичного ритуала власти.</p></article>
+<article class="card"><div class="card-number" data-i18n="meaning_card_num3">Память</div><h3 data-i18n="meaning_card_title3">История в камне</h3><p data-i18n="meaning_card_text3">Архитектура сохраняет политический смысл на протяжении веков.</p></article>
+</div>
+</div>
+<div class="full-image reveal delay-2">
+<img alt="Грановитая палата и Соборная площадь" data-i18n-alt="alt_meaning" src="sobornaya-ploshchad-moskovskogo-kremlya-48454_w640.jpg"/>
+<div class="image-caption">
+<strong data-i18n="meaning_caption_title">Место силы Кремля</strong>
+<p data-i18n="meaning_caption_text">Другой ракурс площади</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide" id="final">
+<div class="panel reveal">
+<div class="content center">
+<div class="eyebrow center" data-i18n="final_eyebrow">Финальный акцент</div>
+<div class="big-final" data-i18n-html="final_big">Грановитая палата — это <span class="accent">архитектурный образ государства</span>, а не просто старинное здание.</div>
+<p class="sub-final" data-i18n="final_sub">Её фасад говорит о прочности и порядке, её интерьер — о церемонии и иерархии, а её история — о становлении Москвы как политического центра. Именно поэтому палата остаётся одной из самых выразительных и символически насыщенных построек Московского Кремля.</p>
+<div class="full-image large reveal delay-2">
+<img alt="Финальный образ Грановитой палаты" data-i18n-alt="alt_final" src="moskovskij-kreml-granovitaya-palata-48427_w640.jpg"/>
+<div class="image-caption">
+<strong data-i18n="final_caption_title">Финальный образ</strong>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="credit-section reveal" id="credits">
+<div class="credit-wrap">
+<div class="credit-line"></div>
+<p class="credit-label" data-i18n="credits_label">Презентацию выполнил</p>
+<h2 class="credit-name" data-i18n="credits_name">Картузов Артём</h2>
+<p class="credit-subtext" data-i18n="credits_subtext">Учебный проект по истории</p>
+<div class="credit-glow credit-glow-1"></div>
+<div class="credit-glow credit-glow-2"></div>
+</div>
+</section>
+</main>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add('show');
+    });
+  }, { threshold: 0.14 });
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const devtoolsOverlay = document.getElementById('devtoolsOverlay');
+  const langDropdown = document.getElementById('langDropdown');
+  const langCurrent = document.getElementById('langCurrent');
+
+  const translations = {
+  "ru": {
+    "page_title": "Грановитая палата — HTML презентация",
+    "brand_name": "Грановитая палата",
+    "language_label": "Язык",
+    "menu_open": "Открыть меню",
+    "nav_home": "Главная",
+    "nav_history": "История",
+    "nav_architecture": "Архитектура",
+    "nav_authors": "Создатели",
+    "nav_interior": "Интерьер",
+    "nav_meaning": "Значение",
+    "nav_final": "Финал",
+    "devtools_title": "Доступ закрыт",
+    "devtools_text": "Пожалуйста, закройте инструменты разработчика и обновите страницу",
+    "hero_eyebrow": "Московский Кремль / История / Архитектура власти",
+    "hero_title": "Грановитая <span class=\"accent\">палата</span>",
+    "hero_p1": "Грановитая палата — одно из самых узнаваемых и символически нагруженных сооружений Московского Кремля. Это не просто старинное здание, а важнейшее пространство государственной репрезентации, где архитектура, политический ритуал и историческая память веками работали вместе.",
+    "hero_p2": "Именно здесь государственная власть показывала себя как торжественный порядок: через масштаб зала, строгость каменного фасада, церемонии, приёмы иностранных послов, пиры и официальные собрания. Даже сегодня палата воспринимается как архитектурный знак эпохи, в которой Москва превращалась в центр усиливающегося государства.",
+    "hero_label_period": "Период",
+    "hero_info_period": "1487–1491",
+    "hero_label_context": "Контекст",
+    "hero_info_context": "Эпоха Ивана III",
+    "hero_label_image": "Образ",
+    "hero_info_image": "Власть и церемония",
+    "hero_caption_title": "Общий вид",
+    "slide_02": "Слайд 02",
+    "history_title": "История создания",
+    "history_p1": "Строительство Грановитой палаты относится к концу XV века — времени, когда Московское государство активно укрепляло своё политическое положение и одновременно переосмысляло архитектурный язык власти. В этот период Кремль превращался не только в оборонительный комплекс, но и в тщательно продуманную парадную резиденцию правителя.",
+    "history_p2": "Палата возводилась в 1487–1491 годах. Её появление связано с крупной перестройкой Кремля при Иване III, когда в Москву приглашались иностранные мастера, прежде всего из Италии. Их задача заключалась не просто в строительстве новых стен и дворцовых помещений, а в создании образа новой столицы, сопоставимой по выразительности с ведущими центрами Европы.",
+    "history_p3": "Уже в первые десятилетия своего существования палата стала центральным местом государственных церемоний. Здесь принимали послов, проводили торжественные обеды, праздновали победы и обсуждали вопросы, напрямую связанные с устройством русского государства.",
+    "history_fact_year1": "1487",
+    "history_fact_text1": "Начало строительства в контексте масштабного обновления Кремля.",
+    "history_fact_year2": "1487–1491",
+    "history_fact_text2": "Основной период работ, в течение которого формируется парадный характер будущей палаты.",
+    "history_fact_year3": "XVI–XVII века",
+    "history_fact_text3": "Палата окончательно закрепляется как пространство высших государственных церемоний.",
+    "history_caption_title": "Исторический контекст",
+    "history_caption_text": "Фото старого ракурса Грановитой палаты",
+    "slide_03": "Слайд 03",
+    "architecture_title": "Архитектурный образ",
+    "architecture_p1": "Главная особенность палаты — её знаменитый фасад, обработанный рустом в форме граней. Именно из-за этого декоративного приёма здание получило своё название. Поверхность стены словно разложена на ритмичные каменные плоскости, благодаря чему фасад начинает работать как большой геометрический экран.",
+    "architecture_p2": "Архитектура палаты соединяет русскую традицию с итальянским ренессансным опытом. В ней нет избыточной мягкости: напротив, здание выглядит собранным, напряжённым и статичным. Такая сдержанность делает его особенно выразительным в окружении кремлёвских соборов и дворцовых корпусов. Внешний облик палаты уже сам по себе говорит о функции и статусе здания.",
+    "architecture_card_num1": "01",
+    "architecture_card_title1": "Гранёный руст",
+    "architecture_card_text1": "Создаёт характерную игру света на белом камне и придаёт фасаду узнаваемую пластику.",
+    "architecture_card_num2": "02",
+    "architecture_card_title2": "Ренессансное влияние",
+    "architecture_card_text2": "Читается в пропорциях, чёткости архитектурных членений и отношении к фасаду как к парадной плоскости.",
+    "architecture_card_num3": "03",
+    "architecture_card_title3": "Политическая форма",
+    "architecture_card_text3": "Архитектура работает как средство выразить идею прочности и порядка.",
+    "architecture_caption_title": "Детали фасада",
+    "architecture_caption_text": "Фото крупного фрагмента фасада",
+    "slide_04": "Слайд 04",
+    "authors_title": "Создатели палаты",
+    "authors_name1": "Марко Руффо",
+    "authors_card_title1": "Итальянский мастер, работавший на обновление Кремля",
+    "authors_card_p1_1": "Марко Руффо был одним из архитекторов, приглашённых в Москву в эпоху Ивана III. Его деятельность связана с переломным моментом, когда Кремль становился не только крепостью, но и новой представительской столицей.",
+    "authors_card_p1_2": "Руффо привнёс в русскую строительную среду приёмы позднесредневековой и раннеренессансной Италии, которые в Москве получили особую, более строгую и государственную трактовку.",
+    "authors_name2": "Пьетро Антонио Солари",
+    "authors_card_title2": "Архитектор новой кремлёвской эпохи",
+    "authors_card_p2_1": "Солари считается одной из ключевых фигур в формировании кремлёвского ансамбля конца XV века. Его работа сочетала инженерную точность, умение выстраивать парадный фасад и понимание того, как архитектура влияет на восприятие власти.",
+    "authors_card_p2_2": "Именно через таких мастеров Москва включалась в большой европейский архитектурный диалог, но не копировала его буквально, а перерабатывала под собственные политические задачи.",
+    "authors_quote": "Руффо и Солари стали проводниками нового художественного языка, с помощью которого Московское государство показывало свой масштаб и амбиции.",
+    "authors_caption_title": "Создатели",
+    "authors_caption_text": "Картинка с исторической иллюстрацией",
+    "slide_05": "Слайд 05",
+    "interior_title": "Интерьер и пространство",
+    "interior_p1": "Внутри Грановитой палаты главное впечатление создаёт не столько декор сам по себе, сколько масштаб пространства. Зал воспринимается как единый монументальный объём, в центре которого находится опорный столб. Благодаря этому решению интерьер одновременно открыт и строго организован.",
+    "interior_p2": "Сводчатая система поднимает взгляд вверх, а росписи, декоративные мотивы и крупные светильники усиливают чувство церемониальности. Интерьер буквально заставляет человека чувствовать себя внутри пространства, где каждое движение, слово и жест должны были иметь официальный вес.",
+    "interior_p3": "Такой зал идеально подходил для приёмов послов, больших торжеств и обедов по случаю военных побед. Пространство не просто вмещало людей — оно дисциплинировало их присутствие и подчеркивало иерархию.",
+    "interior_fact_title1": "Центральная опора",
+    "interior_fact_text1": "Ключевой элемент, на котором держится система сводов и вся пространственная композиция.",
+    "interior_fact_title2": "Своды и росписи",
+    "interior_fact_text2": "Формируют вертикальное движение взгляда и усиливают ощущение торжественности.",
+    "interior_fact_title3": "Церемониальная логика",
+    "interior_fact_text3": "Интерьер рассчитан на представление власти и на зрелищность официальных событий.",
+    "interior_caption_title": "Парадный зал",
+    "interior_caption_text": "Настоящее интерьерное фото со сводами, росписями и центральной опорой",
+    "slide_06": "Слайд 06",
+    "meaning_title": "Историческое значение",
+    "meaning_p1": "Грановитая палата на протяжении столетий была одним из главных помещений русской государственной жизни. Здесь принимали иностранных послов, устраивали торжественные пиры, отмечали важнейшие победы, собирали представителей власти и демонстрировали иностранным гостям величие московского двора.",
+    "meaning_p2": "Её значение заключалось не только в том, что в ней происходили важные события. Не менее важно и то, как именно они происходили. Пространство палаты задавало нужный масштаб любой церемонии: усиливало впечатление порядка, величия и исторической непрерывности власти.",
+    "meaning_p3": "Даже в современном восприятии палата остаётся не просто архитектурным памятником, а концентратом представлений о государственном ритуале старой Москвы. Это место, где политическая история и художественная форма почти неразделимы.",
+    "meaning_card_num1": "Посольства",
+    "meaning_card_title1": "Внешний образ государства",
+    "meaning_card_text1": "Палата была пространством, где Русь показывала себя иностранным гостям как сильное и организованное государство.",
+    "meaning_card_num2": "Торжества",
+    "meaning_card_title2": "Праздник как политика",
+    "meaning_card_text2": "Пиры и церемонии здесь были частью публичного ритуала власти.",
+    "meaning_card_num3": "Память",
+    "meaning_card_title3": "История в камне",
+    "meaning_card_text3": "Архитектура сохраняет политический смысл на протяжении веков.",
+    "meaning_caption_title": "Место силы Кремля",
+    "meaning_caption_text": "Другой ракурс площади",
+    "final_eyebrow": "Финальный акцент",
+    "final_big": "Грановитая палата — это <span class=\"accent\">архитектурный образ государства</span>, а не просто старинное здание.",
+    "final_sub": "Её фасад говорит о прочности и порядке, её интерьер — о церемонии и иерархии, а её история — о становлении Москвы как политического центра. Именно поэтому палата остаётся одной из самых выразительных и символически насыщенных построек Московского Кремля.",
+    "final_caption_title": "Финальный образ",
+    "credits_label": "Презентацию выполнил",
+    "credits_name": "Картузов Артём",
+    "credits_subtext": "Учебный проект по истории",
+    "alt_hero": "Грановитая палата, общий вид",
+    "alt_history": "Исторический вид Грановитой палаты",
+    "alt_architecture": "Архитектурные детали Грановитой палаты",
+    "alt_authors": "Марко Руффо и Пьетро Антонио Солари",
+    "alt_interior": "Интерьер Грановитой палаты",
+    "alt_meaning": "Грановитая палата и Соборная площадь",
+    "alt_final": "Финальный образ Грановитой палаты"
+  },
+  "en": {
+    "page_title": "Faceted Palace — HTML Presentation",
+    "brand_name": "Faceted Palace",
+    "language_label": "Language",
+    "menu_open": "Open menu",
+    "nav_home": "Home",
+    "nav_history": "History",
+    "nav_architecture": "Architecture",
+    "nav_authors": "Creators",
+    "nav_interior": "Interior",
+    "nav_meaning": "Meaning",
+    "nav_final": "Final",
+    "devtools_title": "Access denied",
+    "devtools_text": "Please close the developer tools and refresh the page",
+    "hero_eyebrow": "Moscow Kremlin / History / Architecture of power",
+    "hero_title": "The <span class=\"accent\">Faceted Palace</span>",
+    "hero_p1": "The Faceted Palace is one of the most recognizable and symbolically charged buildings in the Moscow Kremlin. It is not merely an old structure, but a key space of state representation where architecture, political ritual, and historical memory worked together for centuries.",
+    "hero_p2": "It was here that state power presented itself as solemn order: through the scale of the hall, the severity of the stone façade, ceremonies, receptions of foreign ambassadors, feasts, and official gatherings. Even today, the palace is perceived as an architectural sign of the era in which Moscow was becoming the center of a strengthening state.",
+    "hero_label_period": "Period",
+    "hero_info_period": "1487–1491",
+    "hero_label_context": "Context",
+    "hero_info_context": "Era of Ivan III",
+    "hero_label_image": "Image",
+    "hero_info_image": "Power and ceremony",
+    "hero_caption_title": "General view",
+    "slide_02": "Slide 02",
+    "history_title": "History of creation",
+    "history_p1": "The construction of the Faceted Palace dates to the late 15th century, a time when the Muscovite state was actively strengthening its political position while also rethinking the architectural language of power. During this period, the Kremlin was becoming not only a defensive complex but also a carefully designed ceremonial residence of the ruler.",
+    "history_p2": "The palace was built in 1487–1491. Its appearance was linked to the major rebuilding of the Kremlin under Ivan III, when foreign masters, primarily from Italy, were invited to Moscow. Their task was not simply to build new walls and palace chambers, but to create the image of a new capital comparable in expressiveness to the leading centers of Europe.",
+    "history_p3": "Already in the first decades of its existence, the palace became the central place for state ceremonies. Ambassadors were received here, festive banquets were held, victories were celebrated, and questions directly connected with the organization of the Russian state were discussed.",
+    "history_fact_year1": "1487",
+    "history_fact_text1": "Beginning of construction within the large-scale renewal of the Kremlin.",
+    "history_fact_year2": "1487–1491",
+    "history_fact_text2": "Main period of work during which the ceremonial character of the future palace took shape.",
+    "history_fact_year3": "16th–17th centuries",
+    "history_fact_text3": "The palace finally established itself as a space for the highest state ceremonies.",
+    "history_caption_title": "Historical context",
+    "history_caption_text": "Photo of an old-angle view of the Faceted Palace",
+    "slide_03": "Slide 03",
+    "architecture_title": "Architectural image",
+    "architecture_p1": "The main feature of the palace is its famous façade treated with faceted rustication. It is this decorative technique that gave the building its name. The wall surface seems divided into rhythmic stone planes, making the façade work like a large geometric screen.",
+    "architecture_p2": "The architecture of the palace combines Russian tradition with Italian Renaissance experience. There is no excessive softness in it: on the contrary, the building appears collected, tense, and static. This restraint makes it especially expressive among the Kremlin cathedrals and palace buildings. The exterior itself already speaks of the building’s function and status.",
+    "architecture_card_num1": "01",
+    "architecture_card_title1": "Faceted rustication",
+    "architecture_card_text1": "Creates a characteristic play of light on white stone and gives the façade its recognizable plasticity.",
+    "architecture_card_num2": "02",
+    "architecture_card_title2": "Renaissance influence",
+    "architecture_card_text2": "Visible in the proportions, the clarity of architectural divisions, and the treatment of the façade as a ceremonial plane.",
+    "architecture_card_num3": "03",
+    "architecture_card_title3": "Political form",
+    "architecture_card_text3": "Architecture works as a means of expressing the idea of strength and order.",
+    "architecture_caption_title": "Façade details",
+    "architecture_caption_text": "Photo of a close-up fragment of the façade",
+    "slide_04": "Slide 04",
+    "authors_title": "Creators of the palace",
+    "authors_name1": "Marco Ruffo",
+    "authors_card_title1": "Italian master involved in renewing the Kremlin",
+    "authors_card_p1_1": "Marco Ruffo was one of the architects invited to Moscow during the era of Ivan III. His activity is associated with the turning point when the Kremlin was becoming not only a fortress but also a new representative capital.",
+    "authors_card_p1_2": "Ruffo introduced techniques of late medieval and early Renaissance Italy into Russian building practice, where in Moscow they received a special, stricter, and more state-oriented interpretation.",
+    "authors_name2": "Pietro Antonio Solari",
+    "authors_card_title2": "Architect of the new Kremlin era",
+    "authors_card_p2_1": "Solari is considered one of the key figures in shaping the Kremlin ensemble of the late 15th century. His work combined engineering precision, the ability to build a ceremonial façade, and an understanding of how architecture influences the perception of power.",
+    "authors_card_p2_2": "Through masters like these, Moscow entered the broader European architectural dialogue, yet did not copy it literally, instead reworking it for its own political aims.",
+    "authors_quote": "Ruffo and Solari became guides of a new artistic language through which the Muscovite state displayed its scale and ambitions.",
+    "authors_caption_title": "Creators",
+    "authors_caption_text": "Image with a historical illustration",
+    "slide_05": "Slide 05",
+    "interior_title": "Interior and space",
+    "interior_p1": "Inside the Faceted Palace, the main impression comes not so much from the décor itself as from the scale of the space. The hall is perceived as a single monumental volume, at the center of which stands a supporting pillar. Thanks to this solution, the interior is both open and strictly organized.",
+    "interior_p2": "The vaulting system lifts the gaze upward, while murals, decorative motifs, and large chandeliers intensify the sense of ceremony. The interior literally makes a person feel inside a space where every movement, word, and gesture had to carry official weight.",
+    "interior_p3": "Such a hall was ideal for receiving ambassadors, holding major celebrations, and banquets in honor of military victories. The space did not simply contain people — it disciplined their presence and emphasized hierarchy.",
+    "interior_fact_title1": "Central support",
+    "interior_fact_text1": "A key element that carries the vaulting system and the entire spatial composition.",
+    "interior_fact_title2": "Vaults and murals",
+    "interior_fact_text2": "Create an upward movement of the gaze and enhance the sense of solemnity.",
+    "interior_fact_title3": "Ceremonial logic",
+    "interior_fact_text3": "The interior is designed to represent power and the spectacle of official events.",
+    "interior_caption_title": "Ceremonial hall",
+    "interior_caption_text": "A real interior photo with vaults, murals, and the central support",
+    "slide_06": "Slide 06",
+    "meaning_title": "Historical significance",
+    "meaning_p1": "For centuries, the Faceted Palace was one of the main spaces of Russian state life. Foreign ambassadors were received here, ceremonial feasts were held, major victories were celebrated, representatives of power gathered, and foreign guests were shown the grandeur of the Moscow court.",
+    "meaning_p2": "Its significance lay not only in the important events that took place there. Equally important was how they took place. The palace space set the proper scale for any ceremony, strengthening the impression of order, grandeur, and the historical continuity of power.",
+    "meaning_p3": "Even in modern perception, the palace remains not just an architectural monument, but a concentration of ideas about the state ritual of old Moscow. It is a place where political history and artistic form are almost inseparable.",
+    "meaning_card_num1": "Embassies",
+    "meaning_card_title1": "External image of the state",
+    "meaning_card_text1": "The palace was a space where Rus presented itself to foreign guests as a strong and organized state.",
+    "meaning_card_num2": "Celebrations",
+    "meaning_card_title2": "Festivity as politics",
+    "meaning_card_text2": "Feasts and ceremonies here were part of the public ritual of power.",
+    "meaning_card_num3": "Memory",
+    "meaning_card_title3": "History in stone",
+    "meaning_card_text3": "Architecture preserves political meaning through the centuries.",
+    "meaning_caption_title": "A place of power in the Kremlin",
+    "meaning_caption_text": "Another view of the square",
+    "final_eyebrow": "Final emphasis",
+    "final_big": "The Faceted Palace is an <span class=\"accent\">architectural image of the state</span>, not just an old building.",
+    "final_sub": "Its façade speaks of strength and order, its interior of ceremony and hierarchy, and its history of Moscow’s rise as a political center. That is why the palace remains one of the most expressive and symbolically dense structures of the Moscow Kremlin.",
+    "final_caption_title": "Final image",
+    "credits_label": "Presentation by",
+    "credits_name": "Kartuzov Artyom",
+    "credits_subtext": "Educational history project",
+    "alt_hero": "Faceted Palace, general view",
+    "alt_history": "Historical view of the Faceted Palace",
+    "alt_architecture": "Architectural details of the Faceted Palace",
+    "alt_authors": "Marco Ruffo and Pietro Antonio Solari",
+    "alt_interior": "Interior of the Faceted Palace",
+    "alt_meaning": "The Faceted Palace and Cathedral Square",
+    "alt_final": "Final image of the Faceted Palace"
+  },
+  "zh": {
+    "page_title": "棱宫 — HTML演示",
+    "brand_name": "棱宫",
+    "language_label": "语言",
+    "menu_open": "打开菜单",
+    "nav_home": "首页",
+    "nav_history": "历史",
+    "nav_architecture": "建筑",
+    "nav_authors": "建造者",
+    "nav_interior": "内部",
+    "nav_meaning": "意义",
+    "nav_final": "结语",
+    "devtools_title": "访问已被禁止",
+    "devtools_text": "请关闭开发者工具并刷新页面",
+    "hero_eyebrow": "莫斯科克里姆林宫 / 历史 / 权力建筑",
+    "hero_title": "<span class=\"accent\">棱宫</span>",
+    "hero_p1": "棱宫是莫斯科克里姆林宫中最具辨识度、也最富象征意义的建筑之一。它不仅是一座古老建筑，更是国家形象展示的重要空间，在这里，建筑、政治仪式与历史记忆数百年来共同发挥作用。",
+    "hero_p2": "国家权力正是在这里以庄严秩序的形式展现出来：通过大厅的尺度、石质立面的严整、各种典礼、外国使节接待、盛宴和官方集会。直到今天，这座宫殿仍被视为莫斯科逐渐成为强大国家中心时代的建筑标志。",
+    "hero_label_period": "时期",
+    "hero_info_period": "1487–1491",
+    "hero_label_context": "背景",
+    "hero_info_context": "伊凡三世时期",
+    "hero_label_image": "形象",
+    "hero_info_image": "权力与仪式",
+    "hero_caption_title": "整体外观",
+    "slide_02": "第 02 页",
+    "history_title": "建造历史",
+    "history_p1": "棱宫的建造始于15世纪末。当时，莫斯科国家一方面积极巩固自身的政治地位，另一方面也在重新思考权力的建筑语言。正是在这一时期，克里姆林宫不再只是防御工事，而逐渐成为经过精心设计的统治者礼仪性宫廷居所。",
+    "history_p2": "这座宫殿建于1487年至1491年。它的出现与伊凡三世时期克里姆林宫的大规模重建有关。当时，莫斯科邀请了外国工匠，尤其是意大利大师。他们的任务不仅是建造新的城墙和宫殿空间，更是塑造一座能够在表现力上与欧洲主要中心相媲美的新首都形象。",
+    "history_p3": "在建成后的最初几十年里，这座宫殿便成为国家礼仪活动的中心场所。这里接待使节、举行盛宴、庆祝胜利，也讨论与俄罗斯国家体制直接相关的重要事务。",
+    "history_fact_year1": "1487",
+    "history_fact_text1": "在克里姆林宫大规模更新背景下开始建造。",
+    "history_fact_year2": "1487–1491",
+    "history_fact_text2": "主要施工时期，未来宫殿的礼仪性质在此阶段形成。",
+    "history_fact_year3": "16至17世纪",
+    "history_fact_text3": "宫殿最终确立为最高等级国家仪式的空间。",
+    "history_caption_title": "历史背景",
+    "history_caption_text": "棱宫旧视角照片",
+    "slide_03": "第 03 页",
+    "architecture_title": "建筑形象",
+    "architecture_p1": "这座宫殿最主要的特点，是其著名的立面采用了多面体砌石装饰。正是这种装饰手法赋予了建筑名称。墙面仿佛被分解为有节奏的石质平面，使立面像一块巨大的几何屏幕。",
+    "architecture_p2": "棱宫的建筑融合了俄罗斯传统与意大利文艺复兴经验。它没有多余的柔和感；相反，整座建筑显得凝练、紧张而静止。正是这种克制，使它在克里姆林宫诸教堂和宫殿建筑群中格外鲜明。仅从外观上，这座宫殿就已经说明了自身的功能与地位。",
+    "architecture_card_num1": "01",
+    "architecture_card_title1": "多面体砌石",
+    "architecture_card_text1": "在白石表面形成独特的光影效果，并赋予立面鲜明的可识别性。",
+    "architecture_card_num2": "02",
+    "architecture_card_title2": "文艺复兴影响",
+    "architecture_card_text2": "体现在比例、建筑分隔的清晰性，以及把立面视作礼仪性平面的方式上。",
+    "architecture_card_num3": "03",
+    "architecture_card_title3": "政治形式",
+    "architecture_card_text3": "建筑成为表达稳固与秩序观念的工具。",
+    "architecture_caption_title": "立面细节",
+    "architecture_caption_text": "立面局部特写照片",
+    "slide_04": "第 04 页",
+    "authors_title": "宫殿的建造者",
+    "authors_name1": "马尔科·鲁福",
+    "authors_card_title1": "参与克里姆林宫重建的意大利大师",
+    "authors_card_p1_1": "马尔科·鲁福是伊凡三世时代受邀来到莫斯科的建筑师之一。他的活动与一个转折时期有关：当时克里姆林宫不仅是堡垒，也逐渐成为新的代表性都城。",
+    "authors_card_p1_2": "鲁福把中世纪晚期和早期文艺复兴时期意大利的建筑手法带入俄罗斯建筑实践，而这些手法在莫斯科获得了更严格、更具国家色彩的解释。",
+    "authors_name2": "彼得罗·安东尼奥·索拉里",
+    "authors_card_title2": "新克里姆林宫时代的建筑师",
+    "authors_card_p2_1": "索拉里被认为是塑造15世纪末克里姆林宫整体风貌的关键人物之一。他的工作结合了工程精确性、塑造礼仪性立面的能力，以及对建筑如何影响权力感知的理解。",
+    "authors_card_p2_2": "正是通过这样的工匠，莫斯科进入了更广阔的欧洲建筑对话之中，但并未照搬，而是根据自身的政治目标进行了再创造。",
+    "authors_quote": "鲁福和索拉里成为新艺术语言的传播者，莫斯科国家正是借助这种语言展示自身的规模与雄心。",
+    "authors_caption_title": "建造者",
+    "authors_caption_text": "带有历史插图的图片",
+    "slide_05": "第 05 页",
+    "interior_title": "内部与空间",
+    "interior_p1": "在棱宫内部，最强烈的感受并不只是装饰本身，而是空间的尺度。大厅被视为一个统一的纪念性体量，其中心设有承重柱。正因如此，内部空间既开敞，又组织严谨。",
+    "interior_p2": "拱顶系统引导视线向上，壁画、装饰性元素和大型灯具则进一步强化了仪式感。这个内部空间几乎让人切身感受到：在这里，每一个动作、每一句话、每一个姿态都必须具有官方分量。",
+    "interior_p3": "这样的大厅非常适合接待使节、举行大型庆典以及庆祝军事胜利的宴会。这个空间不仅容纳人群，还规范了他们的在场方式，并强调了等级秩序。",
+    "interior_fact_title1": "中央支撑柱",
+    "interior_fact_text1": "承载拱顶系统和整个空间构图的关键元素。",
+    "interior_fact_title2": "拱顶与壁画",
+    "interior_fact_text2": "形成向上的视觉运动，并强化庄严感。",
+    "interior_fact_title3": "礼仪逻辑",
+    "interior_fact_text3": "整个内部是为权力展示和官方场面的视觉效果而设计的。",
+    "interior_caption_title": "礼仪大厅",
+    "interior_caption_text": "真实的内部照片，可见拱顶、壁画和中央支撑柱",
+    "slide_06": "第 06 页",
+    "meaning_title": "历史意义",
+    "meaning_p1": "几个世纪以来，棱宫一直是俄罗斯国家生活中最重要的空间之一。这里接待外国使节、举行盛大宴会、庆祝重大胜利、聚集权力代表，并向外国来宾展示莫斯科宫廷的威严。",
+    "meaning_p2": "它的重要性不仅在于这里发生了重要事件，更在于这些事件是如何发生的。宫殿的空间为任何仪式设定了恰当的尺度，强化了秩序、宏伟以及权力历史连续性的印象。",
+    "meaning_p3": "即使在今天，这座宫殿也不仅仅是一处建筑纪念物，而是古老莫斯科国家仪式观念的集中体现。在这里，政治历史与艺术形式几乎不可分割。",
+    "meaning_card_num1": "使团",
+    "meaning_card_title1": "国家的对外形象",
+    "meaning_card_text1": "这座宫殿是罗斯向外国来宾展示自身强大与有序国家形象的空间。",
+    "meaning_card_num2": "庆典",
+    "meaning_card_title2": "节庆即政治",
+    "meaning_card_text2": "这里的宴会和仪式本身就是权力公共礼仪的一部分。",
+    "meaning_card_num3": "记忆",
+    "meaning_card_title3": "石头中的历史",
+    "meaning_card_text3": "建筑在几个世纪中保存着政治意义。",
+    "meaning_caption_title": "克里姆林宫的力量之地",
+    "meaning_caption_text": "广场的另一视角",
+    "final_eyebrow": "结语重点",
+    "final_big": "棱宫不仅是一座古老建筑，更是<span class=\"accent\">国家的建筑形象</span>。",
+    "final_sub": "它的立面诉说着稳固与秩序，它的内部诉说着仪式与等级，而它的历史则诉说着莫斯科如何成为政治中心。正因如此，棱宫始终是莫斯科克里姆林宫中最富表现力和象征密度的建筑之一。",
+    "final_caption_title": "最终形象",
+    "credits_label": "演示制作",
+    "credits_name": "Kartuzov Artyom",
+    "credits_subtext": "历史课程学习项目",
+    "alt_hero": "棱宫整体外观",
+    "alt_history": "棱宫历史视图",
+    "alt_architecture": "棱宫建筑细节",
+    "alt_authors": "马尔科·鲁福与彼得罗·安东尼奥·索拉里",
+    "alt_interior": "棱宫内部",
+    "alt_meaning": "棱宫与主教座堂广场",
+    "alt_final": "棱宫最终形象"
+  }
+};
+
+  function applyTranslations(lang) {
+    const dict = translations[lang] || translations.ru;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-html');
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-aria-label');
+      if (dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-alt');
+      if (dict[key] !== undefined) el.setAttribute('alt', dict[key]);
+    });
+    if (dict.page_title) document.title = dict.page_title;
+
+    const currentLabel = lang === 'ru' ? 'RU ▾' : lang === 'en' ? 'EN ▾' : '中文 ▾';
+    if (langCurrent) langCurrent.textContent = currentLabel;
+
+    document.querySelectorAll('.mobile-lang-btn').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    localStorage.setItem('granovitayaLang', lang);
+  }
+
+  function openMenu() {
+    if (!mobileMenu || !menuOverlay) return;
+    mobileMenu.classList.add('active');
+    menuOverlay.classList.add('active');
+    document.body.classList.add('no-scroll');
+    menuToggle.textContent = '✕';
+    menuToggle.setAttribute('aria-label', 'Закрыть меню');
+  }
+
+  function closeMenu() {
+    if (!mobileMenu || !menuOverlay) return;
+    mobileMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+    menuToggle.textContent = '☰';
+    const lang = localStorage.getItem('granovitayaLang') || 'ru';
+    const dict = translations[lang] || translations.ru;
+    menuToggle.setAttribute('aria-label', dict.menu_open || 'Открыть меню');
+  }
+
+  function toggleMenu() {
+    if (mobileMenu.classList.contains('active')) closeMenu();
+    else openMenu();
+  }
+
+  function toggleLangMenu() {
+    if (!langDropdown) return;
+    langDropdown.classList.toggle('active');
+  }
+
+  function closeLangMenu() {
+    if (!langDropdown) return;
+    langDropdown.classList.remove('active');
+  }
+
+  function setLanguage(lang) {
+    applyTranslations(lang);
+    closeLangMenu();
+    closeMenu();
+  }
+
+  if (menuToggle) menuToggle.addEventListener('click', toggleMenu);
+  if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+  if (langCurrent) langCurrent.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleLangMenu();
+  });
+
+  document.querySelectorAll('.lang-item, .mobile-lang-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const lang = btn.dataset.lang || 'ru';
+      setLanguage(lang);
+    });
+  });
+
+  document.querySelectorAll('#mobileMenu a, .nav-links a').forEach((link) => {
+    link.addEventListener('click', () => {
+      closeMenu();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (langDropdown && !langDropdown.contains(e.target)) {
+      closeLangMenu();
+    }
+  });
+
+  function openDevtoolsOverlay() {
+    if (!devtoolsOverlay) return;
+    devtoolsOverlay.classList.add('active');
+    devtoolsOverlay.setAttribute('aria-hidden', 'false');
+    closeMenu();
+    document.body.classList.add('no-scroll');
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  function devtoolsDetectedBySize() {
+    const widthGap = window.outerWidth - window.innerWidth;
+    const heightGap = window.outerHeight - window.innerHeight;
+    return widthGap > 160 || heightGap > 160;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    const key = (e.key || '').toLowerCase();
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(key)) ||
+      (e.ctrlKey && key === 'u')
+    ) {
+      e.preventDefault();
+      openDevtoolsOverlay();
+    }
+
+    if (e.key === 'Escape') {
+      if (mobileMenu && mobileMenu.classList.contains('active')) closeMenu();
+      closeLangMenu();
+    }
+  });
+
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+
+  setInterval(() => {
+    if (devtoolsDetectedBySize()) {
+      openDevtoolsOverlay();
+    }
+  }, 1000);
+
+  applyTranslations(localStorage.getItem('granovitayaLang') || 'ru');
+</script>
+
+</body>
+</html>
