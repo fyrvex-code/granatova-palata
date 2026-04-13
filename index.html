@@ -969,9 +969,85 @@
   background:rgba(126,161,255,.16);
   border-color:rgba(126,161,255,.35);
 }
-</style>
+
+
+    .rotate-overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:rgba(5,7,15,.78);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      z-index:5000;
+    }
+
+    .rotate-overlay.active{
+      display:flex;
+    }
+
+    .rotate-box{
+      width:100%;
+      max-width:420px;
+      text-align:center;
+      padding:28px 24px;
+      border-radius:26px;
+      background:rgba(8,15,40,.88);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 30px 80px rgba(0,0,0,.4);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+    }
+
+    .rotate-icon{
+      font-size:52px;
+      margin-bottom:16px;
+      animation:rotatePhonePulse 1.8s ease-in-out infinite;
+    }
+
+    .rotate-box h2{
+      margin:0 0 10px;
+      font-size:30px;
+      color:#fff;
+    }
+
+    .rotate-box p{
+      margin:0;
+      font-size:15px;
+      line-height:1.6;
+      color:rgba(255,255,255,.72);
+    }
+
+    @keyframes rotatePhonePulse{
+      0%{transform:rotate(0deg) scale(1)}
+      25%{transform:rotate(90deg) scale(1.05)}
+      50%{transform:rotate(90deg) scale(1)}
+      75%{transform:rotate(0deg) scale(1.05)}
+      100%{transform:rotate(0deg) scale(1)}
+    }
+
+    /* FOOTER */
+.footer{
+  text-align:center;
+  padding:40px;
+  opacity:.6;
+}
+
+  </style>
 </head>
 <body>
+
+  <div class="rotate-overlay" id="rotateOverlay">
+    <div class="rotate-box">
+      <div class="rotate-icon">↻</div>
+      <h2 data-i18n="rotate_title">Переверните телефон</h2>
+      <p data-i18n="rotate_text">Сайт лучше выглядит в вертикальном положении</p>
+    </div>
+  </div>
+
+
 <nav class="nav">
 <div class="brand">
 <span class="brand-mark"></span>
@@ -1206,16 +1282,14 @@
 </div>
 </div>
 </section>
-<section class="credit-section reveal" id="credits">
-<div class="credit-wrap">
-<div class="credit-line"></div>
-<p class="credit-label" data-i18n="credits_label">Презентацию выполнил</p>
-<h2 class="credit-name" data-i18n="credits_name">Картузов Артём</h2>
-<p class="credit-subtext" data-i18n="credits_subtext">Учебный проект по истории</p>
-<div class="credit-glow credit-glow-1"></div>
-<div class="credit-glow credit-glow-2"></div>
+
+<div class="footer">
+  2026 — создатель  
+  <br>
+  <a href="#" style="color:#60a5fa">ссылка на сайт</a>
 </div>
-</section>
+
+    
 </main>
 
 <script>
@@ -1249,6 +1323,8 @@
     "nav_final": "Финал",
     "devtools_title": "Доступ закрыт",
     "devtools_text": "Пожалуйста, закройте инструменты разработчика и обновите страницу",
+    "rotate_title": "Переверните телефон",
+    "rotate_text": "Сайт лучше выглядит в вертикальном положении",
     "hero_eyebrow": "Московский Кремль / История / Архитектура власти",
     "hero_title": "Грановитая <span class=\"accent\">палата</span>",
     "hero_p1": "Грановитая палата — одно из самых узнаваемых и символически нагруженных сооружений Московского Кремля. Это не просто старинное здание, а важнейшее пространство государственной репрезентации, где архитектура, политический ритуал и историческая память веками работали вместе.",
